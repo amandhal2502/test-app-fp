@@ -2,12 +2,20 @@
 <html>
 <head>
 	<title>Add Employee Information</title>
+	<style>
+	  body {
+	    background-image: url("{{ url_for('static', filename='kubernetes.svg') }}");
+	    background-repeat:no-repeat;
+	    background-attachment:fixed;
+	    background-size:100% 100%;
+	  }
+        </style>
 </head>
 <center>
 	<font color="black" size="4" style="font-family: avenir">
 
 		<h1 style="color: DodgerBlue">Employee Database</h1>
-		<body style="background: {{ color }};" >
+		<body>
 
 			<form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
 
