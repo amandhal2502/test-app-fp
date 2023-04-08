@@ -3,7 +3,8 @@ from pymysql import connections
 import os
 import random
 import argparse
-
+import boto3
+from botocore.client import Config
 
 app = Flask(__name__)
 
@@ -37,6 +38,19 @@ color_codes = {
     "lime": "#C1FF9C",
 }
 
+s3 = boto3.client(
+            's3',
+                aws_access_key_id="ASIAW326XDAXJYQLGEW7",
+                aws_secret_access_key="ziGD5tBwnUY6IaZ5TdYjOlM8s1/FhT9P/bBTi+Bj",
+                aws_session_token="FwoGZXIvYXdzEHoaDATc+r+eqW1MTCobhyLCATfqK2vPZvnDQdwZKPDvJiFasNA56tS/ERcz5kCvJCIGcdkst6eiIUQEwWuKNzNJZNFy/TwYm9qH568QQmTuLt0WxIDyUuj83vRlXiJtRc4HP4bs9tDnzDW4gADA/U0qM/Py8rjCe5HABVU5LtAe9mSir6PeiWr7rvHsmBXMXGkladn0haoKy/6XwS2aXkmt4ULARnCi32tosZ3b1jICfgOZPU0bFY0ASjXsVAouZeXWPOPIIz2Rufy+gxoI13CATD7hKILgwqEGMi2aYzxknkp/F53MkslKyCTqVuOTjrmEHc04vibG2P/aNmZO4oTTUoixaGsHPfQ=",
+                region_name="us-east-1",
+                            )
+
+response = s3.get_object(Bucket="s3-fp", Key="kubernetes.svg")
+data = response['Body'].read()
+
+with open("/app/static/kubernetes.svg", 'wb') as f:
+    f.write(data)
 
 # Create a string of supported colors
 SUPPORTED_COLORS = ",".join(color_codes.keys())
@@ -133,4 +147,4 @@ if __name__ == '__main__':
         print("Color not supported. Received '" + COLOR + "' expected one of " + SUPPORTED_COLORS)
         exit(1)
 
-    app.run(host='0.0.0.0',port=8080,debug=True)
+    app.run(host='0.0.0.0',port=81,debug=True)
